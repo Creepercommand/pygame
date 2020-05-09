@@ -18,7 +18,7 @@ gameover = False
 
 #파이게임 초기화
 pygame.init()
-screen = pygame.display.set_mode(SCREEN_SIZE)
+screen = pygame.display.set_mode(SCREEN_SIZE, pygame.FULLSCREEN)
 pygame.display.set_caption("Dead GAME^^ - Creeper_coding")
 frame = pygame.time.Clock()
 pygame.key.set_repeat(1)
