@@ -46,7 +46,7 @@ while True:
         player_pos.right = SCREEN_WIDTH
 
     for one in enemies:
-        one.top += 10
+        one.top += 8
         if one.bottom > SCREEN_HEIGHT:
             one.top = -100
             one.left = random.randint(0, SCREEN_WIDTH - enemy_img.get_width() // 2)
