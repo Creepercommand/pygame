@@ -39,9 +39,9 @@ class Ship:
         return self.ship_img.get_height()
 
 class Player(Ship):
-    def __init__(self, x,y,health = 100):
+    def __init__(self, x, y, health = 100):
         super().__init__(x,y,health)
-        self.ship_image = YELLOW_SPACE_SHIP
+        self.ship_img = YELLOW_SPACE_SHIP
         self.max_health = health
 
 def main():
