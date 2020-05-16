@@ -56,7 +56,9 @@ while True:
                 player_pos.left -= 8
             if event.key == pygame.K_RIGHT:
                 player_pos.left += 8
-
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                exit()
     if player_pos.left < 0:
         player_pos.left = 0
     elif player_pos.right > SCREEN_WIDTH:
