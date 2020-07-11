@@ -31,6 +31,7 @@ while True:
         for r_idx in range(ROW_COUNT):
             one_rect = (c_idx * CELL_SIZE ,r_idx * CELL_SIZE ,CELL_SIZE,CELL_SIZE)
             pygame.draw.rect(screen,GRAY,one_rect,1)
+
     pygame.display.update()
 
 pygame.quit()
