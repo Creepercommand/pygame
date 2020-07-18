@@ -40,6 +40,12 @@ center = (COL_COUNT // 2, ROW_COUNT // 2)
 bodies = [center]
 
 
+def draw_grid(g_x, g_y, color=WHITE, border=0):
+    rect = (g_x * CELL_SIZE, g_y * CELL_SIZE,
+            CELL_SIZE, CELL_SIZE)
+    pygame.draw.rect(screen, color, rect, border)
+
+
 def add_food():
     while True:
         c_idx = random.randint(0, COL_COUNT - 1)
@@ -108,19 +114,13 @@ while True:
 
     for c_idx in range(COL_COUNT):
         for r_idx in range(ROW_COUNT):
-            one_rect = (c_idx * CELL_SIZE, r_idx * CELL_SIZE,
-                        CELL_SIZE, CELL_SIZE)
-            pygame.draw.rect(screen, GRAY, one_rect, 1)
+            draw_grid(c_idx,r_idx,GRAY,1)
 
     for one in foods:
-        f_rect = (one[0] * CELL_SIZE, one[1] * CELL_SIZE,
-                  CELL_SIZE, CELL_SIZE)
-        pygame.draw.rect(screen, GREEN, f_rect)
+        draw_grid(one[0],one[1],GREEN)
 
     for one in bodies:
-        b_rect = (one[0] * CELL_SIZE, one[1] * CELL_SIZE,
-                  CELL_SIZE, CELL_SIZE)
-        pygame.draw.rect(screen, BLUE, b_rect)
+        draw_grid(one[0],one[1],BLUE)
 
     score_img = score_font.render(f"Score:{score}", True, YELLOW)
     screen.blit(score_img, (10, 10))
