@@ -28,16 +28,17 @@ RIGHT = 1
 UP = 2
 DOWN = 3
 STOP = 4
+HACK = 5
 direction = DOWN
 
 score = 0
 
-score_font = pygame.font.SysFont("comicsans",40)
-
+score_font = pygame.font.SysFont("comicsans", 40)
 
 # 뱀
 center = (COL_COUNT // 2, ROW_COUNT // 2)
 bodies = [center]
+
 
 def add_food():
     while True:
@@ -47,6 +48,7 @@ def add_food():
         if f_pos not in bodies or f_pos not in foods:
             foods.append(f_pos)
             break
+
 
 foods = []
 for _ in range(10):
@@ -68,8 +70,7 @@ while True:
         if event.key == pygame.K_SPACE:
             direction = STOP
         if event.key == pygame.K_s:
-            score += 100
-
+            direction = HACK
 
     head = bodies[0]
     c_idx = head[0]
@@ -84,8 +85,13 @@ while True:
         r_idx += 1
     if direction == STOP:
         pass
+    if direction == HACK:
+        pass
     head_pos = (c_idx, r_idx)
 
+    if direction is HACK:
+        bodies.insert(0, head_pos)
+        score += 10
 
     if head_pos in foods:
         foods.remove(head_pos)
@@ -94,7 +100,7 @@ while True:
         if direction is not STOP:
             bodies.insert(0, head_pos)
     else:
-        if direction is not STOP:
+        if direction is not STOP and direction is not HACK:
             bodies.pop()
             bodies.insert(0, head_pos)
 
@@ -116,13 +122,10 @@ while True:
                   CELL_SIZE, CELL_SIZE)
         pygame.draw.rect(screen, BLUE, b_rect)
 
-    score_img = score_font.render(f"Score:{score}",True,YELLOW)
-    screen.blit(score_img,(10,10))
+    score_img = score_font.render(f"Score:{score}", True, YELLOW)
+    screen.blit(score_img, (10, 10))
 
     pygame.display.update()
     clock.tick(10)
-
-
-
 
 pygame.quit()
