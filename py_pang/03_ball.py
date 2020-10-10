@@ -48,14 +48,14 @@ ball_images = [
     pygame.image.load(os.path.join(img_path,"balloon3.png")),
     pygame.image.load(os.path.join(img_path,"balloon4.png"))
 ]
-bal_speed_y = [-18,-15,-12,-9]
+ball_speed_y = [-18,-15,-12,-9]
 
 balls = []
 balls.append(
     {
         "pos_x" : 50,
         "pos_y" : 50,
-        "img_idx" 0:,
+        "img_idx" : 0,
         "to_x" : 3,
         "to_y" : -6,
         "init_spd_y" : ball_speed_y[0]
@@ -94,9 +94,31 @@ while running:
 
     weapons = [[w[0], w[1]] for w in weapons if w[1] > -screen_height]
 
+    for ball_idx, ball_one in enumerate(balls):
+        #print(ball_idx,ball_one)
+        ball_pos_x = ball_one['pos_x']
+        ball_pos_y = ball_one['pos_y']
+        ball_img_idx = ball_one['img_idx']
+
+        ball_size = ball_images[ball_img_idx].get_rect().size
+        ball_width = ball_size[0]
+        ball_height = ball_size[1]
+
+        if ball_pos_y > screen_height - stage_height - ball_height:
+            ball_one['to_y'] = ball_one['init_spd_y']
+        else:
+            ball_one['to_y'] += 0.5
+        ball_one['pos_x'] += ball_one['to_x']
+        ball_one['pos_y'] += ball_one['to_y']
+
     screen.blit(bg, (0, 0))
     for one in weapons:
         screen.blit(weapon, (one[0], one[1]))
+    for idx, one in enumerate(balls):
+        ball_pos_x = one['pos_x']
+        ball_pos_y = one['pos_y']
+        ball_img_idx = one['img_idx']
+        screen.blit(ball_images[ball_img_idx], (ball_pos_x, ball_pos_y))
     screen.blit(stage, (0, screen_height - stage_height))
     screen.blit(character, (character_x_pos, character_y_pos))
 
