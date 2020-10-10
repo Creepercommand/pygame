@@ -8,6 +8,7 @@
 5. 레이저 바라 속도 조정
 """
 
+
 import pygame
 import os
 import random
