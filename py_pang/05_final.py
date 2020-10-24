@@ -65,6 +65,15 @@ balls = [{
 remove_ball_idx = -1
 remove_weapon_idx = -1
 
+# 폰트 설정 및 타이머 초기화
+game_font = pygame.font.Font(None, 100)
+game_font_sub = pygame.font.Font(None, 40)
+
+total_time = 30
+start_time = pygame.time.get_ticks()
+
+game_result = 'GAME OVER'
+
 # 게임 루프
 running = True
 while running:
@@ -176,6 +185,9 @@ while running:
             if remove_ball_idx > -1:
                 del balls[remove_ball_idx]
                 remove_ball_idx = -1
+                if len(balls) == 0:
+                    game_result = 'YOU WIN!'
+                    running= False
 
     # 화면 출력
     screen.blit(background_img, (0, 0))
@@ -186,8 +198,27 @@ while running:
     screen.blit(stage_img, (0, screen_height - stage_height))
     screen.blit(character_img, (character_x_pos, character_y_pos))
 
+    elapsed_time = (pygame.time.get_ticks() - start_time) /1000
+    timer = game_font_sub.render("TIME: {}".format(int(total_time - elapsed_time)), True, (225,225,0))
+    screen.blit(timer, (10,10))
+
+    if int(total_time - elapsed_time) < 1:
+        game_result = 'TIME OVER'
+        start_time = pygame.time.get_ticks()
+        running = False
+
     # 화면 업데이트
     pygame.display.update()
+
+
+#메시지 출력
+msg = game_font.render(game_result, True,(255,255,0))
+msg_rect = msg.get_rect(center = (screen_width //2 , screen_height//2))
+screen.blit(msg, msg_rect)
+
+pygame.display.update()
+
+pygame.time.delay(2000)
 
 # 파이게임 종료
 pygame.quit()
