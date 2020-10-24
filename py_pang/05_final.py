@@ -44,6 +44,23 @@ weapon_width = weapon_img.get_rect().size[0]
 weapon_speed = 10
 weapons = []
 
+# 공 설정
+ball_img = [
+    pygame.image.load(os.path.join(img_path, "balloon1.png")),
+    pygame.image.load(os.path.join(img_path, "balloon2.png")),
+    pygame.image.load(os.path.join(img_path, "balloon3.png")),
+    pygame.image.load(os.path.join(img_path, "balloon4.png"))
+]
+ball_spd_y = [-18, -15. - 12, -9]
+balls = [{
+    'pos_x': 50,
+    'pos_y': 50,
+    'to_x': 3,
+    'to_y': -6,
+    'img_idx': 0,
+    'init_spd_y': ball_spd_y[0]
+}]
+
 # 게임 루프
 running = True
 while running:
@@ -70,6 +87,7 @@ while running:
     # 캐릭터 움직임
     character_x_pos += character_speed
 
+    # 벽 충돌
     if character_x_pos < 0:
         character_x_pos = 0
     if character_x_pos > screen_width - character_width:
@@ -79,11 +97,29 @@ while running:
     weapons = [[w[0], w[1] - weapon_speed] for w in weapons]
     weapons = [[w[0], w[1]] for w in weapons if w[1] > -screen_height]
 
+    # 공 이동
+    for cur_ball in balls:
+        cur_ball_img = ball_img[cur_ball['img_idx']]
+        cur_ball_rect = cur_ball_img.get_rect().size
+        cur_ball_width = cur_ball_rect[0]
+        cur_ball_height = cur_ball_rect[1]
+
+        if cur_ball['pos_y'] > screen_height - stage_height - cur_ball_height:
+            cur_ball['to_y'] = cur_ball['init_spd_y']
+        else:
+            cur_ball['to_y'] += 0.5
+        if cur_ball['pos_x'] < 0 or cur_ball['pos_x'] > screen_width - cur_ball_width:
+            cur_ball['to_x'] *= -1
+
+        cur_ball['pos_x'] += cur_ball['to_x']
+        cur_ball['pos_y'] += cur_ball['to_y']
 
     # 화면 출력
     screen.blit(background_img, (0, 0))
     for one in weapons:
         screen.blit(weapon_img, (one[0], one[1]))
+    for one in balls:
+        screen.blit(ball_img[one['img_idx']],(one['pos_x'],one['pos_y']))
     screen.blit(stage_img, (0, screen_height - stage_height))
     screen.blit(character_img, (character_x_pos, character_y_pos))
 
