@@ -61,6 +61,10 @@ balls = [{
     'init_spd_y': ball_spd_y[0]
 }]
 
+#제거할 공과 무기 인덱스 초기화
+remove_ball_idx = -1
+remove_weapon_idx = -1
+
 # 게임 루프
 running = True
 while running:
@@ -97,6 +101,11 @@ while running:
     weapons = [[w[0], w[1] - weapon_speed] for w in weapons]
     weapons = [[w[0], w[1]] for w in weapons if w[1] > -screen_height]
 
+    # 캐릭터 영역 추출
+    character_rect = character_img.get_rect()
+    character_rect.top = character_y_pos
+    character_rect.left = character_x_pos
+
     # 공 이동
     for cur_ball in balls:
         cur_ball_img = ball_img[cur_ball['img_idx']]
@@ -114,12 +123,41 @@ while running:
         cur_ball['pos_x'] += cur_ball['to_x']
         cur_ball['pos_y'] += cur_ball['to_y']
 
+    # 충돌 처리
+    for idx_ball, one_ball in enumerate(balls):
+        # 공 영역 추출
+        one_ball_rect = ball_img[one_ball['img_idx']].get_rect()
+        one_ball_rect.top = one_ball['pos_y']
+        one_ball_rect.left = one_ball['pos_x']
+
+
+        # 공과 캐릭터 충돌 확인
+        if one_ball_rect.colliderect(character_rect):
+            running = False
+            print("GAME OVER")
+
+    # 공과 무기 충돌 확인
+        for idx_weapon, one_weapon in enumerate(weapons):
+            one_weapon_rect = weapon_img.get_rect()
+            one_weapon_rect.top = one_weapon[1]
+            one_weapon_rect.left = one_weapon[0]
+            if one_ball_rect.colliderect(one_weapon_rect):
+                remove_ball_idx = idx_ball
+                remove_weapon_idx = idx_weapon
+                break
+            if remove_weapon_idx > -1:
+                del weapons[remove_weapon_idx]
+                remove_weapon_idx = -1
+            if remove_ball_idx > -1:
+                del balls[remove_ball_idx]
+                remove_ball_idx = -1
+
     # 화면 출력
     screen.blit(background_img, (0, 0))
     for one in weapons:
         screen.blit(weapon_img, (one[0], one[1]))
     for one in balls:
-        screen.blit(ball_img[one['img_idx']],(one['pos_x'],one['pos_y']))
+        screen.blit(ball_img[one['img_idx']], (one['pos_x'], one['pos_y']))
     screen.blit(stage_img, (0, screen_height - stage_height))
     screen.blit(character_img, (character_x_pos, character_y_pos))
 
