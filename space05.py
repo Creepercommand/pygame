@@ -8,7 +8,6 @@
 5. 레이저 바라 속도 조정
 """
 
-
 import pygame
 import os
 import random
@@ -60,13 +59,14 @@ class Laser:
     def off_screen(self, height):
         return not (self.y <= SCREEN_HEIGHT and self.y >= 0)
 
-    def collision(self,obj):
-        return collide(self,obj)
+    def collision(self, obj):
+        return collide(self, obj)
 
 
 # 비행선 클래스
 class Ship:
     COOLDOWN = 20
+
     def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
@@ -94,7 +94,7 @@ class Ship:
             self.cool_down_counter = 1
             self.lasers.append(laser)
 
-    def move_laser(self, vel,obj):
+    def move_laser(self, vel, obj):
         self.cooldown()
         for laser in self.lasers:
             laser.move(vel)
@@ -123,8 +123,8 @@ class Player(Ship):
 class Enemy(Ship):
     COLOR_MAP = {
         'red': (RED_SPACE_SHIP, RED_LASER),
-        'blue': (BLUE_SPACE_SHIP,BLUE_LASER),
-        'green': (GREEN_SPACE_SHIP,GREEN_LASER)
+        'blue': (BLUE_SPACE_SHIP, BLUE_LASER),
+        'green': (GREEN_SPACE_SHIP, GREEN_LASER)
     }
 
     def __init__(self, x, y, color, health=100):
@@ -137,14 +137,16 @@ class Enemy(Ship):
 
     def shoot(self):
         if self.cool_down_counter == 0:
-            laser = Laser(self.x -15,self.y,self.laser_img)
+            laser = Laser(self.x - 15, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_down_counter = 1
+
 
 def collide(obj1, obj2):
     offset_x = obj2.x - obj1.x
     offset_y = obj2.y - obj1.y
-    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y))  ! = None
+    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) is not None
+
 
 # 메인 함수
 def main():
@@ -175,7 +177,6 @@ def main():
 
         for enemy in enemies:
             enemy.draw(WIN)
-
 
         player.draw(WIN)
         pygame.display.update()
@@ -213,12 +214,11 @@ def main():
             enemy.move_laser(laser_vel)
             enemy.move_laser(laser_vel, player)
             if random.randrange(0, FPS * 2) == 1:
-                  enemy.shoot()
+                enemy.shoot()
             if enemy.y + enemy_vel > SCREEN_HEIGHT:
                 enemies.remove(enemy)
 
         player.move_laser(-laser_vel)
-
 
 
 main()
