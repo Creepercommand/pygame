@@ -39,7 +39,7 @@ for cnt in range(9):
     # 승리 판정
     if board[y][0] == board[y][1] == board[y][2] == turn:
         break
-    if board[x][0] == board[x][1] == board[x][1] == turn:
+    if board[0][x] == board[1][x] == board[2][x] == turn:
         break
 
     # 턴 변경하기
