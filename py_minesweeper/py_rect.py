@@ -23,4 +23,9 @@ while True:
     pygame.draw.rect(screen, (0, 0, 255), (200, 60, 140, 80))
     pygame.draw.rect(screen, (255, 225, 0), (30, 160, 100, 50))
 
+    pygame.draw.line(screen, (0,0,255), (100,100), (200,200))
+
+    pygame.draw.line(screen ,(255,0,0), (10,80), (200,80))
+    pygame.draw.line(screen, (0,255,0), (250,0), (250,300))
+
     pygame.display.update()
