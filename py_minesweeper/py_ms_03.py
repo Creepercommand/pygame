@@ -63,4 +63,3 @@ while running:
     pygame.display.update()
 
 pygame.quit()
-print(filed)
