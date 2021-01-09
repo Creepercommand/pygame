@@ -24,7 +24,7 @@ class Block:
 paddle = Block(YELLOW, pygame.Rect(300, 700, 100, 30))
 ball = Block(YELLOW, pygame.Rect(300, 400, 20, 20), 10)
 print("BALL : {}, PADDLE : {}".format(ball.speed, paddle.speed))
-pygame.key.
+
 
 running = True
 # 게임 메인 루프
